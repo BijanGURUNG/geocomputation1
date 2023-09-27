@@ -31,15 +31,143 @@ View(df)
 
 df %>%
   ggplot(aes(x = Density_percent, y = Percent_burned)) +
-    geom_point(colour="#000099") + geom_line(colour="#000099")
+    geom_point(colour="#000099") + geom_line(colour="#000099")+
+    ggtitle("Area burned with increasing fuel density") +
+    xlab("Fuel (trees) density (%)") + ylab("Burned area (%)")
 ```
 
 ## Including Plots
 
 You can also embed plots, for example:
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+```{r}
+# directly read the xlsx file
+library("readxl")
+
+df1 <- read_excel("D:/GEOG 808/Ex_2.xlsx", sheet = "Sheet1")
+colnames(df1)
+View(df1)
+class(df1)
+
+# df1[,5]
+# df1 <- df1[c(4:5)]
+# sub_df1 <- setNames(sub_df1, c("Density_percent","Percent_burned"))
+# Note: follow proper naming convention for the columns in xlsx or else there would be errors while reading in r
+
+df1 %>%
+  ggplot(aes(x = Density_percent, y = Burned_percent)) +
+    geom_point(colour="#000099") + geom_line(colour="#000099")+
+    ggtitle("Area burned with increasing fuel density (1% increase in each step)") +
+    xlab("Fuel (trees) density (%)") + ylab("Burned area (%)")
 ```
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+```{r}
+df2 <- read_excel("D:/GEOG 808/burned50.xlsx", sheet = "ranked")
+class(df2)
+head(df2)
+
+install.packages("ggpmisc")
+library(ggpmisc)
+
+df2 %>%
+  ggplot(aes(x = logBin, y = logFreq)) +
+    geom_point(colour="#000099") + #geom_line(colour="#000099") +
+    geom_smooth(method = "lm")+
+    stat_poly_eq(use_label(c("eq", "R2")))+
+    ggtitle("log-log graph of rank and frequency (fuel density 50%)") +
+    xlab("log rank") + ylab("log frequency")
+
+    # for other parameters (F-statistic, p-value and n) apply the following:
+    # stat_poly_eq(use_label(c("eq", "adj.R2", "f", "p", "n")))
+```
+
+```{r}
+df3 <- read_excel("D:/GEOG 808/burned58.xlsx", sheet = "ranked")
+class(df3)
+head(df3)
+
+install.packages("ggpmisc")
+library(ggpmisc)
+
+df3 %>%
+  ggplot(aes(x = logBin, y = logFreq1)) +
+    geom_point(colour="#000099") + #geom_line(colour="#000099") +
+    geom_smooth(method = "lm")+
+    stat_poly_eq(use_label(c("eq", "R2")))+
+    ggtitle("log-log graph of rank and frequency (fuel density 58%)") +
+    xlab("log rank") + ylab("log frequency")
+```
+
+```{r}
+df4 <- read_excel("D:/GEOG 808/burned59.xlsx", sheet = "ranked")
+class(df3)
+head(df3)
+
+# install.packages("ggpmisc")
+# library(ggpmisc)
+
+df4 %>%
+  ggplot(aes(x = logBin, y = logFreq)) +
+    geom_point(colour="#000099") + #geom_line(colour="#000099") +
+    geom_smooth(method = "lm")+
+    stat_poly_eq(use_label(c("eq", "R2")))+
+    ggtitle("log-log graph of rank and frequency (fuel density 59%)") +
+    xlab("log rank") + ylab("log frequency")
+```
+
+```{r}
+df5 <- read_excel("D:/GEOG 808/burned72.xlsx", sheet = "ranked")
+class(df3)
+head(df3)
+
+df5 %>%
+  ggplot(aes(x = logBin, y = logFreq1)) +
+    geom_point(colour="#000099") + #geom_line(colour="#000099") +
+    geom_smooth(method = "lm")+
+    stat_poly_eq(use_label(c("eq", "R2")))+
+    ggtitle("log-log graph of rank and frequency (fuel density 72%)") +
+    xlab("log rank") + ylab("log frequency")
+```
+
+
+
+```{r}
+View(df1)
+
+df2 <- read_excel("D:/GEOG 808/burned66.xlsx", sheet = "burned66")
+head(df2)
+class(df2)
+
+# create a subset of the dataframe to select only the area column
+sub_df2 <- subset(df2, select=c(Area))
+head(sub_df2)
+class(sub_df2)
+
+library(dplyr)
+X = c(5,7,7,6,4,4) 
+round(rank(X))
+rank(desc(X))
+
+sub_df2["rank"] <- rank(-sub_df2$Area)
+sub_df2
+View(sub_df2)
+```
+
+
+```{r}
+df1 <- read_excel("D:/GEOG 808/burned66.xlsx", sheet = "ranked")
+class(df1)
+head(df1)
+View(df1)
+
+install.packages("ggpmisc")
+library(ggpmisc)
+
+df1 %>%
+  ggplot(aes(x = logBinRank, y = logFreq)) +
+    geom_point(colour="#000099") + geom_line(colour="#000099") +
+    geom_smooth(method = "lm")+
+    stat_poly_eq(use_label(c("eq", "R2")))
+```
+
